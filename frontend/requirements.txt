@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+streamlit
+requests
+google-generativeai
+python-multipart
+numpy
+pydantic
+chromadb
+pypdf
+langchain-core
