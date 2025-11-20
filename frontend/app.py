@@ -192,11 +192,15 @@ with tab4:
                     context = search_vector_db(f"{tc['feature']} {tc['scenario']} rules", api_key, top_k=2)
                     
                     prompt = f"""
+                    Act as a selenium (Python) expert
+                    Use appropriate selectors (IDs, names, CSS selectors) based on the actual HTML
                     Write a Python Selenium script using webdriver.Chrome().
                     TEST CASE: {tc}
                     HTML SOURCE (Use these IDs): {st.session_state.html_context}
                     RULES: {context}
                     REQUIREMENTS: Explicit Waits, Assume 'checkout.html' local, Comments. Return ONLY code.
+                    Produce high-quality, fully executable code
+
                     """
                     
                     script = generate_with_gemini(prompt, api_key)

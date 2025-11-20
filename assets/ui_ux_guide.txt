@@ -1,0 +1,22 @@
+UI/UX Guidelines for E-Shop Checkout
+
+1. Color & Styling
+- All form validation errors must be displayed in **red**.
+- The “Pay Now” button must be **green**, rounded, and clearly visible.
+- Success message should appear in **green** with bold formatting.
+
+2. Layout
+- The UI must be simple, clean, and center-aligned.
+- Each product must be contained inside a bordered card.
+
+3. Validation Rules
+- Name, Email, Address fields are mandatory.
+- Inline error messages must appear directly below the field.
+
+4. Buttons
+- Add-to-Cart buttons should be placed next to each product.
+- The Apply Discount button should be small and next to the discount input field.
+
+5. Accessibility
+- All fields must have visible labels.
+- Radio buttons for shipping and payment must be grouped clearly.

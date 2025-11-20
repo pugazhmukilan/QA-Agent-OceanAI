@@ -1,0 +1,14 @@
+{
+  "POST /apply_coupon": {
+    "code": "string",
+    "example_valid_code": "SAVE15"
+  },
+  "POST /submit_order": {
+    "name": "string",
+    "email": "string",
+    "address": "string",
+    "items": "array",
+    "payment_method": "string",
+    "shipping_method": "string"
+  }
+}

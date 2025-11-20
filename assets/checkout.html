@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>E-Shop Checkout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            width: 70%;
+            margin: auto;
+        }
+        h2 {
+            margin-top: 30px;
+        }
+        .product {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+        }
+        .error {
+            color: red;
+            font-size: 13px;
+        }
+        #payNow {
+            background-color: green;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #successMsg {
+            margin-top: 20px;
+            color: green;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>E-Shop Checkout Page</h1>
+
+    <!-- Products -->
+    <h2>Products</h2>
+
+    <div class="product">
+        <h3>Wireless Mouse - $20</h3>
+        <button onclick="addToCart('mouse', 20)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h3>Mechanical Keyboard - $60</h3>
+        <button onclick="addToCart('keyboard', 60)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h3>USB-C Cable - $10</h3>
+        <button onclick="addToCart('cable', 10)">Add to Cart</button>
+    </div>
+
+    <!-- Cart Summary -->
+    <h2>Cart Summary</h2>
+    <div id="cartItems"></div>
+    <p><strong>Total: $<span id="totalPrice">0</span></strong></p>
+
+    <!-- Discount Code -->
+    <h2>Discount Code</h2>
+    <input id="discountCode" placeholder="Enter discount code">
+    <button onclick="applyDiscount()">Apply</button>
+    <p id="discountError" class="error"></p>
+
+    <!-- User Form -->
+    <h2>User Details</h2>
+
+    <label>Name:</label><br>
+    <input id="name"><br>
+    <span id="nameError" class="error"></span><br>
+
+    <label>Email:</label><br>
+    <input id="email"><br>
+    <span id="emailError" class="error"></span><br>
+
+    <label>Address:</label><br>
+    <textarea id="address"></textarea><br>
+    <span id="addressError" class="error"></span><br>
+
+    <!-- Shipping -->
+    <h2>Shipping Method</h2>
+    <input type="radio" name="shipping" value="standard" checked> Standard (Free)<br>
+    <input type="radio" name="shipping" value="express"> Express ($10)<br>
+
+    <!-- Payment -->
+    <h2>Payment Method</h2>
+    <input type="radio" name="payment" value="card" checked> Credit Card<br>
+    <input type="radio" name="payment" value="paypal"> PayPal<br>
+
+    <br><br>
+    <button id="payNow" onclick="payNow()">Pay Now</button>
+
+    <p id="successMsg"></p>
+
+    <script>
+        let cart = [];
+        let total = 0;
+        let discountApplied = false;
+
+        function addToCart(item, price) {
+            cart.push({ item, price });
+            renderCart();
+        }
+
+        function renderCart() {
+            let html = "";
+            total = 0;
+
+            cart.forEach((c, i) => {
+                total += c.price;
+                html += `<p>${c.item} — $${c.price}</p>`;
+            });
+
+            document.getElementById("cartItems").innerHTML = html;
+            document.getElementById("totalPrice").innerText = total;
+        }
+
+        function applyDiscount() {
+            let code = document.getElementById("discountCode").value;
+            document.getElementById("discountError").innerText = "";
+
+            if (code === "SAVE15" && !discountApplied) {
+                total = total - total * 0.15;
+                discountApplied = true;
+                document.getElementById("totalPrice").innerText = total.toFixed(2);
+            } else {
+                document.getElementById("discountError").innerText = "Invalid discount code!";
+            }
+        }
+
+        function payNow() {
+            let name = document.getElementById("name").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let address = document.getElementById("address").value.trim();
+
+            let valid = true;
+
+            document.getElementById("nameError").innerText = "";
+            document.getElementById("emailError").innerText = "";
+            document.getElementById("addressError").innerText = "";
+
+            if (name === "") {
+                valid = false;
+                document.getElementById("nameError").innerText = "Name is required";
+            }
+
+            if (!email.includes("@")) {
+                valid = false;
+                document.getElementById("emailError").innerText = "Invalid email address";
+            }
+
+            if (address.length < 5) {
+                valid = false;
+                document.getElementById("addressError").innerText = "Address is too short";
+            }
+
+            if (valid) {
+                document.getElementById("successMsg").innerText = "Payment Successful!";
+            }
+        }
+    </script>
+
+</body>
+</html>

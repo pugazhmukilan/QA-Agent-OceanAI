@@ -9,3 +9,5 @@ pydantic
 chromadb
 pypdf
 langchain-core
+langchain-text-splitters
+langchain

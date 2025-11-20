@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import google.generativeai as genai
 from langchain_core.messages import AIMessage, HumanMessage
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 import chromadb
 import json
 import time
@@ -117,11 +118,14 @@ def build_vector_db(uploaded_docs, html_content, api_key):
             add_log(f"Skipping empty or unreadable file: {doc.name}")
             continue
 
-        # Simple Chunking
-        chunks = [c.strip() for c in content.split('\n\n') if c.strip()]
-        
-        for i, chunk in enumerate(chunks):
-            if len(chunk) < 10: continue # Skip noise
+        textsplitter = RecursiveCharacterTextSplitter(
+            chunk_size=500,
+            chunk_overlap=50,
+            separators=["\n\n", "\n", " ", ""]
+        )
+        chunks = textsplitter.split_text(content)
+        for chunk in chunks:
+            
             
             embedding = get_embedding(chunk, api_key)
             if embedding:
@@ -129,8 +133,24 @@ def build_vector_db(uploaded_docs, html_content, api_key):
                     documents=[chunk],
                     embeddings=[embedding],
                     metadatas=[{"source": doc.name}],
-                    ids=[f"{doc.name}_{i}_{int(time.time())}"]
+                    ids=[f"{doc.name}_{int(time.time()*1000)}_{hash(chunk)}"]
                 )
+        # # Simple Chunking
+        # chunks = [c.strip() for c in content.split('\n\n') if c.strip()]
+        
+        # for i, chunk in enumerate(chunks):
+        #     if len(chunk) < 10: continue # Skip noise
+            
+        #     embedding = get_embedding(chunk, api_key)
+        #     if embedding:
+        #         collection.add(
+        #             documents=[chunk],
+        #             embeddings=[embedding],
+        #             metadatas=[{"source": doc.name}],
+        #             ids=[f"{doc.name}_{i}_{int(time.time())}"]
+        #         )
+
+        
         
         progress_bar.progress((idx + 1) / total_steps)
         add_log(f"Indexed {len(chunks)} chunks from {doc.name}")
