@@ -186,7 +186,7 @@ def generate_with_gemini(prompt, api_key):
         "apikey": api_key,
         "prompt": prompt,
     }
-    response = requests.post("http://localhost:9000/generate", headers=header, json=body)
+    response = requests.post("https://qaagent.pugazhmukilan.tech/generate", headers=header, json=body)
 
     if response.status_code == 200:
         return response.json().get("response", "")

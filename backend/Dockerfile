@@ -12,8 +12,8 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 
 # FROM python:3.11-slim 
-
+COPY . .
 # COPY --from=build /app /app
 
 
-CMD ["uvicorn", "app/app:app", "--host","0.0.0.0", "--port", "9090"]
+CMD ["uvicorn", "app:app", "--host","0.0.0.0", "--port", "9000"]
