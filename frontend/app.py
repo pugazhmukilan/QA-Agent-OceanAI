@@ -128,6 +128,8 @@ with tab3:
     with col2:
         mode = st.selectbox("Generation Mode", ["Standard Functional", "Edge Cases & Security"])
     
+    additionalprompt = st.text_area("Additional Instructions (optional)", placeholder="E.g., 'Focus on payment gateway scenarios.'")
+    
     if st.button("Generate Test Cases", type="primary"):
         if not st.session_state.kb_built:
             st.error("Knowledge Base not ready.")
@@ -141,6 +143,7 @@ with tab3:
                 Act as a QA Lead. Generate 3-5 diverse test cases.
                 {prompt_instruction}
                 DOCS CONTEXT: {context}
+                ADDITIONAL INSTRUCTIONS FROM USER: {additionalprompt if additionalprompt else 'None'}
                 HTML TARGET: {st.session_state.html_context}
                 OUTPUT JSON ARRAY ONLY: [{{ "id": "TC-01", "feature": "...", "scenario": "...", "expected_result": "...", "grounding": "..." }}]
                 """
