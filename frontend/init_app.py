@@ -1,6 +1,9 @@
 import streamlit as st       
+from utils import spinupbackend
 def init_session_state():
+
     """Initialize all session state variables safely."""
+    spinupbackend()
     defaults = {
         "html_context": "",
         "logs": [],

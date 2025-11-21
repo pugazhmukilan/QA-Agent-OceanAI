@@ -31,6 +31,10 @@ def createresponse(input,api_key):
            
  
 
+def spinupbackend():
+    response = requests.get("https://qaagent.pugazhmukilan.tech/")
+
+    
 
 
 def get_chroma_client():
